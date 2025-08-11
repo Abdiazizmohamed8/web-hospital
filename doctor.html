@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Doctor - Badbaado Hospitaal</title>
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-p1Pkz1bYpSkYjLgKQkEEhB4mwvm4WWAqGq94jIwbwjU/ozS+ITpG6OiO3o2DQ+4d8hDxG8U8ZewZ5PVz9f/1Pg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <style>
+    :root {
+      --primary: #005f73;
+      --secondary: #005f73;
+      --accent: #ffb703;
+      --text: #f5f5f5;
+      --light: #1e1e2f;
+      --dark: #12131a;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: var(--light);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 1rem;
+      animation: slideDown 0.8s ease forwards;
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .logo img {
+      width: 45px;
+      filter: brightness(0) invert(1);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+      flex-grow: 1;
+      text-align: center;
+      user-select: none;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.2rem;
+      font-weight: 600;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.95rem;
+      position: relative;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: var(--accent);
+    }
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -3px;
+      left: 0;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    nav ul li a:hover::after,
+    nav ul li a.active::after {
+      width: 100%;
+    }
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      animation: fadeIn 1.2s ease forwards;
+      opacity: 0;
+    }
+    h2.section-title {
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .intro-text {
+      max-width: 800px;
+      margin: 0 auto 2.5rem;
+      font-size: 1rem;
+      color: #d9d9d9;
+      line-height: 1.75;
+      text-align: center;
+    }
+    .doctors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    .doctor-card {
+      background: var(--dark);
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgb(0 0 0 / 0.3);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .doctor-card:hover {
+      transform: translateY(-8px);
+    }
+    .doctor-photo {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      border: 3px solid var(--accent);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .doctor-photo:hover {
+      transform: scale(1.05);
+    }
+    .doctor-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      color: var(--accent);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .doctor-specialty {
+      font-style: italic;
+      margin-bottom: 0.7rem;
+      color: #a8dadc;
+    }
+    .doctor-experience {
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    .btn-profile {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--dark);
+      font-weight: 700;
+      padding: 0.4rem 1rem;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+    .btn-profile:hover {
+      background: #ffa726;
+    }
+
+    /* New Sections Styling */
+    .testimonials, .special-services, .faq {
+      background: var(--dark);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      margin-top: 3rem;
+      box-shadow: 0 4px 10px rgb(0 0 0 / 0.4);
+    }
+    .testimonial-item {
+      margin-bottom: 1.5rem;
+      font-style: italic;
+      color: #ccc;
+      border-left: 4px solid var(--accent);
+      padding-left: 1rem;
+    }
+    .testimonial-author {
+      margin-top: 0.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+    .special-services ul {
+      list-style: disc inside;
+      color: #d9d9d9;
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .faq-item {
+      margin-bottom: 1.5rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .faq-item h4 {
+      color: var(--accent);
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      padding-right: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+    }
+    .faq-item h4 .fa-plus,
+    .faq-item h4 .fa-minus {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+      margin-left: 10px;
+      color: var(--accent);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      color: #d9d9d9;
+      margin-top: 0.3rem;
+      line-height: 1.4;
+      font-size: 0.95rem;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+    }
+    .faq-item.open h4 .fa-plus {
+      display: none;
+    }
+    .faq-item.open h4 .fa-minus {
+      display: inline;
+    }
+
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.95rem;
+      margin-top: 3rem;
+    }
+    .footer-logo {
+      font-weight: 700;
+      font-size: 1.4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+    .footer-logo i {
+      font-size: 1.6rem;
+      animation: pulse 2s infinite;
+    }
+    .social-contact a {
+      color: white;
+      margin: 0 10px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+    .social-contact a:hover {
+      color: var(--accent);
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        display: none;
+        background: var(--primary);
+        width: 100%;
+        padding: 0.5rem 0;
+      }
+      nav ul.show {
+        display: flex;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      header h1 {
+        flex-grow: 0;
+        text-align: left;
+      }
+    }
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <img src="sawiro/logo.png" alt="Badbaado Hospitaal Logo" />
+      </div>
+      <h1>Badbaado Hospitaal</h1>
+      <nav>
+        <button class="menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+          <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+          <li><a href="index.html"><i class="fas fa-house"></i> Home</a></li>
+          <li><a href="About.html"><i class="fas fa-info-circle"></i> About</a></li>
+          <li><a href="services.html"><i class="fas fa-stethoscope"></i> Services</a></li>
+          <li><a href="doctor.html" class="active"><i class="fas fa-user-md"></i> Doctor</a></li>
+          <li><a href="Appointment.html"><i class="fas fa-calendar-check"></i> Appointment</a></li>
+          <li><a href="Contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h2 class="section-title">Meet Our Expert Doctors</h2>
+
+    <p class="intro-text">
+      At Badbaado Hospitaal, we take pride in our team of highly qualified medical professionals dedicated to providing exceptional healthcare services.
+      Our doctors combine years of clinical expertise with compassionate care to ensure each patient receives personalized treatment tailored to their unique needs.
+      From advanced diagnostics to innovative treatments, our specialists are committed to improving health outcomes and enhancing patient well-being.
+      Learn more about our experts and book an appointment to experience world-class medical care.
+    </p>
+
+    <div class="doctors-grid">
+
+      <article class="doctor-card" tabindex="0">
+        <a href="Appointment.html" aria-label="Book appointment with Dr. Fartuun">
+          <img class="doctor-photo" src="sawiro/d.hh" alt="Dr. Fartuun" />
+          <h3 class="doctor-name">Dr. Fartuun</h3>
+        </a>
+        <p class="doctor-specialty">Cardiology Specialist</p>
+        <p class="doctor-experience">
+          With 15 years of experience in cardiovascular health, Dr. Fartuun specializes in diagnosing and treating complex heart conditions. 
+          She is board certified and known for her patient-centered approach and dedication to preventive cardiology.
+        </p>
+        <a href="Appointment.html" class="btn-profile" aria-label="Book appointment with Dr. Fartuun"><i class="fas fa-calendar-check"></i> Book Now</a>
+      </article>
+
+      <article class="doctor-card" tabindex="0">
+        <a href="Appointment.html" aria-label="Book appointment with Dr. Caisho">
+          <img class="doctor-photo" src="sawiro/d.hijab.jpg" alt="Dr. Caisho" />
+          <h3 class="doctor-name">Dr. Caisho</h3>
+        </a>
+        <p class="doctor-specialty">Neurology Specialist</p>
+        <p class="doctor-experience">
+          Dr. Caisho has over 12 years of experience specializing in neurological disorders including stroke, epilepsy, and neurodegenerative diseases. 
+          She combines clinical excellence with compassionate patient education.
+        </p>
+        <a href="Appointment.html" class="btn-profile" aria-label="Book appointment with Dr. Caisho"><i class="fas fa-calendar-check"></i> Book Now</a>
+      </article>
+
+      <article class="doctor-card" tabindex="0">
+        <a href="Appointment.html" aria-label="Book appointment with Dr. Abdiaziz">
+          <img class="doctor-photo" src="sawiro/doctors_visit...webp" alt="Dr. Abdiaziz" />
+          <h3 class="doctor-name">Dr. Abdiaziz</h3>
+        </a>
+        <p class="doctor-specialty">Pediatrics Specialist</p>
+        <p class="doctor-experience">
+          With a decade of dedicated service in pediatrics, Dr. Abdiaziz provides compassionate care for children from infancy through adolescence, focusing on preventive health and family education.
+        </p>
+        <a href="Appointment.html" class="btn-profile" aria-label="Book appointment with Dr. Abdiaziz"><i class="fas fa-calendar-check"></i> Book Now</a>
+      </article>
+
+      <article class="doctor-card" tabindex="0">
+        <a href="Appointment.html" aria-label="Book appointment with Dr. Yusuf Mohamed">
+          <img class="doctor-photo" src="sawiro/images doctor2.jpeg" alt="Dr. Yusuf Mohamed" />
+          <h3 class="doctor-name">Dr. Yusuf Mohamed</h3>
+        </a>
+        <p class="doctor-specialty">Orthopedic Surgeon</p>
+        <p class="doctor-experience">
+          Dr. Yusuf brings 18 years of experience in orthopedic surgery and trauma care, specializing in joint replacements, fracture management, and sports injuries.
+        </p>
+        <a href="Appointment.html" class="btn-profile" aria-label="Book appointment with Dr. Yusuf Mohamed"><i class="fas fa-calendar-check"></i> Book Now</a>
+      </article>
+
+      <article class="doctor-card" tabindex="0">
+        <a href="Appointment.html" aria-label="Book appointment with Dr. Fatima Hassan">
+          <img class="doctor-photo" src="sawiro/wearing.jpeg" alt="Dr. Fatima Hassan" />
+          <h3 class="doctor-name">Dr. Fatima Hassan</h3>
+        </a>
+        <p class="doctor-specialty">Gynecology Specialist</p>
+        <p class="doctor-experience">
+          With 14 years of clinical practice in women's health, Dr. Fatima focuses on gynecological care, reproductive health, and wellness, offering a compassionate and holistic approach.
+        </p>
+        <a href="Appointment.html" class="btn-profile" aria-label="Book appointment with Dr. Fatima Hassan"><i class="fas fa-calendar-check"></i> Book Now</a>
+      </article>
+
+      <article class="doctor-card" tabindex="0">
+        <a href="Appointment.html" aria-label="Book appointment with Dr. Hibaq">
+          <img class="doctor-photo" src="sawiro/d.hh" alt="Dr. Hibaq" />
+          <h3 class="doctor-name">Dr. Hibaq</h3>
+        </a>
+        <p class="doctor-specialty">General Surgeon</p>
+        <p class="doctor-experience">
+          Dr. Hibaq has 20 years of extensive experience in general surgery, excelling in minimally invasive procedures and post-operative care with a patient-first philosophy.
+        </p>
+        <a href="Appointment.html" class="btn-profile" aria-label="Book appointment with Dr. Hibaq"><i class="fas fa-calendar-check"></i> Book Now</a>
+      </article>
+    </div>
+
+    <!-- Patient Testimonials -->
+    <section class="testimonials" aria-label="Patient testimonials">
+      <h2 class="section-title"><i class="fas fa-comment-dots"></i> What Our Patients Say</h2>
+      <div class="testimonial-item">
+        <p><i class="fas fa-quote-left"></i> Dr. Fartuun saved my life with her expert care and compassion. The entire staff at Badbaado Hospitaal made me feel comfortable and hopeful. <i class="fas fa-quote-right"></i></p>
+        <div class="testimonial-author">— Amina H., Mogadishu</div>
+      </div>
+      <div class="testimonial-item">
+        <p><i class="fas fa-quote-left"></i> I trust Dr. Caisho completely. Her knowledge and patience helped me manage my neurological condition better than I ever expected. <i class="fas fa-quote-right"></i></p>
+        <div class="testimonial-author">— Mohamed S., Hargeisa</div>
+      </div>
+      <div class="testimonial-item">
+        <p><i class="fas fa-quote-left"></i> The pediatrics care at Badbaado is outstanding. Dr. Abdiaziz is wonderful with children and very attentive. <i class="fas fa-quote-right"></i></p>
+        <div class="testimonial-author">— Hodan M., Kismayo</div>
+      </div>
+    </section>
+
+    <!-- Specialized Services -->
+    <section class="special-services" aria-label="Specialized medical services">
+      <h2 class="section-title"><i class="fas fa-clinic-medical"></i> Specialized Services We Offer</h2>
+      <ul>
+        <li>Advanced Cardiology and Heart Disease Management</li>
+        <li>Comprehensive Neurological Care and Stroke Treatment</li>
+        <li>Children's Health and Pediatric Wellness Programs</li>
+        <li>Orthopedic Surgery and Rehabilitation</li>
+        <li>Women's Health and Gynecological Care</li>
+        <li>Minimally Invasive Surgical Procedures</li>
+      </ul>
+    </section>
+
+    <!-- Frequently Asked Questions -->
+    <section class="faq" aria-label="Frequently Asked Questions">
+      <h2 class="section-title"><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+      <h2>Click question to show/hide answer</h2>
+
+      <div class="faq-item">
+        <h4 tabindex="0">
+          How can I book an appointment with a specialist doctor? 
+          <i class="fas fa-plus"></i>
+          <i class="fas fa-minus" style="display:none;"></i>
+        </h4>
+        <div class="faq-answer">
+          You can book an appointment by clicking the "Book Now" button next to each doctor's profile or by visiting our Appointment page. You may also call our hospital directly.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h4 tabindex="0">
+          Do you accept walk-in patients? 
+          <i class="fas fa-plus"></i>
+          <i class="fas fa-minus" style="display:none;"></i>
+        </h4>
+        <div class="faq-answer">
+          Yes, we do accept walk-in patients; however, we recommend scheduling an appointment to reduce waiting time and ensure you see the right specialist promptly.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h4 tabindex="0">
+          Are the consultations covered by insurance? 
+          <i class="fas fa-plus"></i>
+          <i class="fas fa-minus" style="display:none;"></i>
+        </h4>
+        <div class="faq-answer">
+          We accept several insurance providers. Please contact our billing department or check our Contact page for more detailed insurance information.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h4 tabindex="0">
+          What safety measures are in place during the COVID-19 pandemic? 
+          <i class="fas fa-plus"></i>
+          <i class="fas fa-minus" style="display:none;"></i>
+        </h4>
+        <div class="faq-answer">
+          Badbaado Hospitaal follows all government and WHO guidelines, including mandatory mask-wearing, social distancing, frequent sanitization, and health screening at the entrance.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-logo" aria-label="Hospital logo and name">
+      <i class="fas fa-hospital-symbol"></i>
+      <span>Badbaado Hospitaal</span>
+    </div>
+    <div class="social-contact" role="contentinfo">
+      <a href="https://facebook.com" target="_blank" aria-label="Facebook" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://wa.me/615821483" target="_blank" aria-label="WhatsApp" rel="noopener"><i class="fab fa-whatsapp"></i></a>
+      <a href="tel:+252615821483" aria-label="Phone 1" class="phone-number">
+        <i class="fas fa-phone"></i> 3399
+      </a>
+      <a href="tel:+252614867424" aria-label="Phone 2" class="phone-number">
+        <i class="fas fa-phone"></i> +252614867424
+      </a>
+    </div>
+    <p>© 2025 Badbaado Hospitaal. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuToggle.onclick = () => {
+      const isShown = navLinks.classList.toggle('show');
+      menuToggle.setAttribute('aria-expanded', isShown);
+    };
+
+    // Highlight active link based on current URL
+    const links = document.querySelectorAll('nav a');
+    links.forEach(link => {
+      if (link.href === location.href) {
+        link.classList.add('active');
+      }
+    });
+
+    // FAQ toggle logic with icons
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const question = item.querySelector('h4');
+      const plusIcon = question.querySelector('.fa-plus');
+      const minusIcon = question.querySelector('.fa-minus');
+
+      question.addEventListener('click', () => {
+        item.classList.toggle('open');
+        if(item.classList.contains('open')) {
+          plusIcon.style.display = 'none';
+          minusIcon.style.display = 'inline';
+        } else {
+          plusIcon.style.display = 'inline';
+          minusIcon.style.display = 'none';
+        }
+      });
+      question.addEventListener('keypress', e => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          question.click();
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Services - Badbaado Hospital</title>
+  <style>
+    :root {
+      --primary: #005f73;
+      --secondary: #0a9396;
+      --accent: #ee9b00;
+      --text: #fefae0;
+      --light: #f8f9fa;
+      --dark: #001219;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 1rem;
+      animation: slideDown 0.8s ease forwards;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .logo img {
+      width: 45px;
+      filter: brightness(0) invert(1);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+      flex-grow: 1;
+      text-align: center;
+      user-select: none;
+    }
+
+    nav .nav-links {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 1rem 0;
+      margin: 0;
+    }
+
+    nav .nav-links li a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: color 0.3s ease, transform 0.2s ease;
+      position: relative;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      padding: 1rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      nav .nav-links {
+        flex-direction: column;
+        display: none;
+      }
+
+      nav .nav-links.show {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 1rem;
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+    }
+
+    h1, h2 {
+      color: var(--accent);
+      text-align: center;
+    }
+
+    /* Statistics section */
+    .stats-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .stat-card {
+      background: var(--primary);
+      padding: 1.5rem;
+      border-radius: 10px;
+      width: 180px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+      color: var(--text);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(238, 155, 0, 0.7);
+    }
+
+    .stat-card i {
+      font-size: 2.8rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card .number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-card .label {
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Services & Departments grid */
+    .cards-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.8rem;
+      padding: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .cards-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--primary);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      color: var(--text);
+      user-select: none;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(238, 155, 0, 0.7);
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    /* Details area */
+    #details {
+      background: var(--secondary);
+      border-radius: 10px;
+      margin-top: 2rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      color: var(--text);
+    }
+
+    #details h3 {
+      margin-top: 0;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    #details p {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    #details ul {
+      list-style: disc;
+      margin-left: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+footer {
+      background:  var(--primary);
+      color: white;
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      font-size: 1rem;
+      user-select: none;
+    }
+
+    .footer-logo {
+      font-weight: 700;
+      font-size: 1.6rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-logo i {
+      font-size: 1.8rem;
+      animation: pulse 2s infinite;
+    }
+
+    .social-contact a {
+      margin: 0 0.5rem;
+      color: var(--text);
+      font-size: medium;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      
+    }
+
+    .social-contact a:hover {
+      color: var(--accent);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+</head>
+<body>
+
+ <header>
+    <div class="header-container">
+      <div class="logo">
+        <img src="sawiro/logo.png" alt="Badbaado Hospitaal Logo" />
+      </div>
+      <h1>Badbaado Hospitaal</h1>
+      <nav>
+        <button class="menu-toggle" aria-label="Toggle Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+          <li><a href="index.html"><i class="fas fa-house"></i> Home</a></li>
+          <li><a href="About.html"><i class="fas fa-info-circle"></i> About</a></li>
+          <li><a href="services.html" class="active"><i class="fas fa-stethoscope"></i> Services</a></li>
+          <li><a href="doctor.html"><i class="fas fa-user-md"></i> Doctor</a></li>
+          <li><a href="Appointment.html"><i class="fas fa-calendar-check"></i> Appointment</a></li>
+          <li><a href="Contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+<main>
+  <h2>Hospital Overview & Services</h2>
+
+  <!-- Stats Section -->
+  <section class="stats-container" aria-label="Hospital statistics">
+    <div class="stat-card" tabindex="0" aria-label="Total Employees">
+      <i class="fas fa-users"></i>
+      <div class="number" id="employees-count">320</div>
+      <div class="label">Total Employees</div>
+      <p>Our hospital is staffed by a highly skilled team dedicated to delivering exceptional patient care across all departments.</p>
+    </div>
+
+    <div class="stat-card" tabindex="0" aria-label="Total Nursing Staff">
+      <i class="fas fa-user-nurse"></i>
+      <div class="number" id="nursing-count">400</div>
+      <div class="label">Nursing Staff</div>
+      <p>Our nursing staff consists of experienced and compassionate nurses who provide round-the-clock care and support.</p>
+    </div>
+
+    <div class="stat-card" tabindex="0" aria-label="Total Medical Staff">
+      <i class="fas fa-user-tie"></i>
+      <div class="number" id="staff-count">180</div>
+      <div class="label">Medical Staff</div>
+      <p>Including specialists, technicians, and allied health professionals committed to comprehensive health services.</p>
+    </div>
+
+    <div class="stat-card" tabindex="0" aria-label="Total Doctors">
+      <i class="fas fa-user-md"></i>
+      <div class="number" id="doctors-count">75</div>
+      <div class="label">Doctors</div>
+      <p>Our team of doctors covers a broad spectrum of specialties ensuring expert diagnosis and treatment.</p>
+    </div>
+
+    <div class="stat-card" tabindex="0" aria-label="Number of Rooms">
+      <i class="fas fa-procedures"></i>
+      <div class="number" id="rooms-count">120</div>
+      <div class="label">Patient Rooms</div>
+      <p>Equipped with modern facilities, providing comfortable and safe environments for patient recovery.</p>
+    </div>
+
+    <div class="stat-card" tabindex="0" aria-label="Number of Patients Treated">
+      <i class="fas fa-notes-medical"></i>
+      <div class="number" id="patients-count">9000+</div>
+      <div class="label">Patients Treated</div>
+      <p>Serving thousands of patients with quality healthcare services over the years with proven outcomes.</p>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <h2>Our Core Medical Services</h2>
+  <section class="cards-container" aria-label="List of hospital services">
+    <div class="card" tabindex="0" data-type="service" data-id="general-medicine">
+      <h3><i class="fas fa-stethoscope"></i> General Medicine</h3>
+      <p>Our General Medicine department provides comprehensive diagnosis, treatment, and follow-up care for adults with a variety of acute and chronic illnesses. From preventive screenings to management of complex conditions, our physicians employ evidence-based approaches tailored to individual patient needs.</p>
+    </div>
+    <div class="card" tabindex="0" data-type="service" data-id="pediatrics">
+      <h3><i class="fas fa-baby"></i> Pediatrics</h3>
+      <p>Specialized healthcare for newborns, children, and adolescents. Our pediatricians are trained to address growth, development, vaccinations, and childhood illnesses, ensuring a safe and nurturing environment for young patients.</p>
+    </div>
+    <div class="card" tabindex="0" data-type="service" data-id="emergency-care">
+      <h3><i class="fas fa-ambulance"></i> Emergency Care</h3>
+      <p>We offer 24/7 emergency medical services equipped with state-of-the-art technology and highly trained emergency physicians. Our rapid response team provides immediate care for trauma, acute illnesses, and life-threatening conditions.</p>
+    </div>
+    <div class="card" tabindex="0" data-type="service" data-id="radiology">
+      <h3><i class="fas fa-x-ray"></i> Radiology</h3>
+      <p>Our Radiology department offers advanced diagnostic imaging including digital X-rays, CT scans, MRIs, and ultrasound. Expert radiologists interpret images accurately to support timely diagnosis and treatment planning.</p>
+    </div>
+    <div class="card" tabindex="0" data-type="service" data-id="surgery">
+      <h3><i class="fas fa-procedures"></i> Surgery</h3>
+      <p>Our surgical team comprises highly skilled surgeons specializing in general, orthopedic, and minimally invasive surgeries. We ensure safe operative procedures and comprehensive postoperative care for optimal patient outcomes.</p>
+    </div>
+    <div class="card" tabindex="0" data-type="service" data-id="cardiology">
+      <h3><i class="fas fa-heartbeat"></i> Cardiology</h3>
+      <p>Comprehensive heart care including diagnostics, interventions, and rehabilitation. Our cardiologists employ cutting-edge technology for managing heart disease, arrhythmias, and preventive cardiology.</p>
+    </div>
+  </section>
+
+  <!-- Specialized Departments Section -->
+  <h2>Our Specialized Departments</h2>
+  <section class="cards-container" aria-label="Specialized hospital departments">
+    <div class="card" tabindex="0" data-type="department" data-id="oncology">
+      <h3><i class="fas fa-radiation-alt"></i> Oncology</h3>
+      <p>The Oncology department provides holistic cancer care, including early detection, chemotherapy, radiation therapy, and supportive care services aimed at improving quality of life.</p>
+    </div>
+    <div class="card" tabindex="0" data-type="department" data-id="pulmonology">
+      <h3><i class="fas fa-lungs"></i> Pulmonology</h3>
+      <p>Focused on respiratory health, we diagnose and treat lung diseases such as asthma, COPD, pneumonia, and pulmonary fibrosis with advanced respiratory therapy options.</p>
+    </div>
+    <div class="card" tabindex="0" data-type="department" data-id="orthopedics">
+      <h3><i class="fas fa-bone"></i> Orthopedics</h3>
+      <p>Our orthopedic specialists treat injuries and disorders related to bones, joints, ligaments, and muscles. Services include trauma management, joint replacement, and rehabilitation therapy.</p>
+    </div>
+    <div class="card" tabindex="0" data-type="department" data-id="ophthalmology">
+      <h3><i class="fas fa-eye"></i> Ophthalmology</h3>
+      <p>Providing comprehensive eye exams, surgical interventions, and corrective treatments to preserve and enhance vision health for patients of all ages.</p>
+    </div>
+    <div class="card" tabindex="0" data-type="department" data-id="ent">
+      <h3><i class="fas fa-ear-deaf"></i> ENT (Ear, Nose, Throat)</h3>
+      <p>Our ENT specialists diagnose and treat disorders affecting hearing, balance, sinus, throat, and voice, using both medical and surgical approaches.</p>
+    </div>
+    <div class="card" tabindex="0" data-type="department" data-id="neonatology">
+      <h3><i class="fas fa-baby"></i> Neonatology</h3>
+      <p>Dedicated to the care of premature and critically ill newborns, our neonatology unit provides specialized monitoring, life support, and family-centered care.</p>
+    </div>
+  </section>
+
+  <!-- Details Area -->
+  <section id="details" aria-live="polite" aria-atomic="true" style="display:none;">
+    <!-- Dynamic content will appear here -->
+  </section>
+</main>
+
+<footer>
+  <div class="footer-logo">
+    <i class="fas fa-hospital-symbol"></i> Badbaado Hospital
+  </div>
+  <div class="social-contact">
+    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://wa.me/615821483" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    <a href="tel:+252615821483" aria-label="Phone +252615821483"><i class="fas fa-phone">3399</i> +</a>
+    <a href="tel:+252614867424" aria-label="Phone +252614867424"><i class="fas fa-phone"></i> +252614867424</a>
+  </div>
+  <p>© 2025 Badbaado Hospital. All rights reserved.</p>
+</footer>
+
+<script>
+  // Fade in main content on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    const main = document.querySelector('main');
+    main.style.opacity = '1';
+  });
+
+  // Toggle mobile menu
+  const toggle = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  toggle.addEventListener('click', () => {
+    navLinks.classList.toggle('show');
+  });
+
+  // Data for services and departments with doctors and details
+  const detailsData = {
+    "general-medicine": {
+      title: "General Medicine",
+      description: "Comprehensive care for a wide range of medical conditions.",
+      doctors: [
+        { name: "Dr. Ahmed Ali", specialty: "Internal Medicine" },
+        { name: "Dr. Fadumo Mohamed", specialty: "General Practitioner" }
+      ]
+    },
+    "pediatrics": {
+      title: "Pediatrics",
+      description: "Specialized care for infants, children, and adolescents.",
+      doctors: [
+        { name: "Dr. Mohamed Hassan", specialty: "Pediatrics" },
+        { name: "Dr. Hodan Yusuf", specialty: "Child Specialist" }
+      ]
+    },
+    "emergency-care": {
+      title: "Emergency Care",
+      description: "24/7 emergency services equipped with the latest technology.",
+      doctors: [
+        { name: "Dr. Abdirahman Nur", specialty: "Emergency Medicine" },
+        { name: "Dr. Amina Warsame", specialty: "Trauma Specialist" }
+      ]
+    },
+    "radiology": {
+      title: "Radiology",
+      description: "Advanced imaging services including X-rays, CT scans, and MRIs.",
+      doctors: [
+        { name: "Dr. Yusuf Ahmed", specialty: "Radiologist" }
+      ]
+    },
+    "surgery": {
+      title: "Surgery",
+      description: "Expert surgical team performing routine and complex procedures.",
+      doctors: [
+        { name: "Dr. Sahra Abdullahi", specialty: "General Surgery" },
+        { name: "Dr. Osman Farah", specialty: "Orthopedic Surgery" }
+      ]
+    },
+    "cardiology": {
+      title: "Cardiology",
+      description: "Heart health diagnostics and treatment by experienced cardiologists.",
+      doctors: [
+        { name: "Dr. Hassan Ali", specialty: "Cardiology" },
+        { name: "Dr. Leyla Abdullahi", specialty: "Interventional Cardiology" }
+      ]
+    },
+    "oncology": {
+      title: "Oncology",
+      description: "Comprehensive cancer diagnosis and treatment.",
+      doctors: [
+        { name: "Dr. Maryan Mohamed", specialty: "Oncologist" },
+        { name: "Dr. Abdiwahab Yusuf", specialty: "Radiation Oncologist" }
+      ]
+    },
+    "pulmonology": {
+      title: "Pulmonology",
+      description: "Expert care for respiratory system disorders.",
+      doctors: [
+        { name: "Dr. Farah Osman", specialty: "Pulmonologist" }
+      ]
+    },
+    "orthopedics": {
+      title: "Orthopedics",
+      description: "Treatment of musculoskeletal injuries and diseases.",
+      doctors: [
+        { name: "Dr. Hassan Mohamed", specialty: "Orthopedic Surgeon" },
+        { name: "Dr. Fartun Ali", specialty: "Physiotherapist" }
+      ]
+    },
+    "ophthalmology": {
+      title: "Ophthalmology",
+      description: "Eye care and vision correction services.",
+      doctors: [
+        { name: "Dr. Nur Ahmed", specialty: "Ophthalmologist" }
+      ]
+    },
+    "ent": {
+      title: "ENT (Ear, Nose, Throat)",
+      description: "Diagnosis and treatment of ear, nose, and throat conditions.",
+      doctors: [
+        { name: "Dr. Abdirizak Hassan", specialty: "ENT Specialist" }
+      ]
+    },
+    "neonatology": {
+      title: "Neonatology",
+      description: "Specialized care for newborns and premature infants.",
+      doctors: [
+        { name: "Dr. Hawa Ibrahim", specialty: "Neonatologist" }
+      ]
+    }
+  };
+
+  // Show details when clicking a service or department
+  const cards = document.querySelectorAll('.card');
+  const detailsSection = document.getElementById('details');
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const id = card.getAttribute('data-id');
+      const data = detailsData[id];
+      if (!data) return;
+
+      // Build HTML for details
+      let html = `<h3><i class="fas fa-info-circle"></i> ${data.title}</h3>`;
+      html += `<p>${data.description}</p>`;
+      if (data.doctors && data.doctors.length > 0) {
+        html += `<h4>Our Doctors:</h4><ul>`;
+        data.doctors.forEach(doc => {
+          html += `<li><strong>${doc.name}</strong> - ${doc.specialty}</li>`;
+        });
+        html += `</ul>`;
+      }
+
+      detailsSection.innerHTML = html;
+      detailsSection.style.display = 'block';
+      detailsSection.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Accessibility: also show details on keyboard Enter key
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

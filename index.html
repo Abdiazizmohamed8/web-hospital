@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Badbaado Hospitaal</title>
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    :root {
+      --primary:  #005f73;
+      --secondary:  #005f73;
+      --accent: #ffb703;
+      --text: #f5f5f5;
+      --light: #1e1e2f;
+      --dark: #12131a;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      color: var(--text);
+      overflow-x: hidden;
+      background-color: var(--light);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 1rem 3rem;
+      animation: slideDown 0.8s ease forwards;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+     .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .logo img {
+      width: 45px;
+      filter: brightness(0) invert(1);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      flex-grow: 0;
+      order: 2;
+      text-align: center;
+      user-select: none;
+      letter-spacing: 1.2px;
+      margin: 0 1rem;
+      white-space: nowrap;
+    }
+
+    nav {
+      order: 3;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.8rem;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      position: relative;
+      padding: 0.25rem 0;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: var(--accent);
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    nav ul li a:hover::after,
+    nav ul li a.active::after {
+      width: 100%;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    .hero {
+      padding: 4rem 2rem 5rem;
+      text-align: center;
+      background: var(--secondary);
+      color: white;
+      animation: fadeIn 1.2s ease forwards;
+      max-width: 1200px;
+      margin: 3rem auto;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 0.6rem;
+      animation: fadeUp 1s ease forwards;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+    }
+
+    .hero h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      font-weight: 500;
+      opacity: 0.95;
+      font-style: italic;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 0 auto 2.2rem;
+      opacity: 0.95;
+      font-weight: 300;
+    }
+
+    .btn {
+      background-color: var(--accent);
+      color: var(--dark);
+      padding: 0.8rem 2rem;
+      border-radius: 30px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+      box-shadow: 0 5px 10px rgba(247, 127, 0, 0.5);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+
+    .btn:hover {
+      background-color: #e86c00;
+      transform: scale(1.1);
+    }
+
+    .slider-container {
+      max-width: 1100px;
+      margin: 0 auto 4rem;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1.2s ease 0.3s forwards;
+      opacity: 0;
+    }
+
+    .slider {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      will-change: transform;
+    }
+
+    .slide {
+      min-width: 100%;
+      user-select: none;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 650px;
+      object-fit: cover;
+      display: block;
+      border-radius: 15px;
+      filter: brightness(0.95);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.15);
+    }
+
+    .slide img:hover {
+      transform: scale(1.05);
+    }
+
+    .slider-nav {
+      text-align: center;
+      margin-top: 1.2rem;
+    }
+
+    .slider-dot {
+      height: 14px;
+      width: 14px;
+      background-color: #aaa;
+      border-radius: 50%;
+      display: inline-block;
+      margin: 0 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .slider-dot.active {
+      background-color: var(--primary);
+      transform: scale(1.4);
+    }
+
+    section.hero.alt-section {
+      background: var(--primary);
+      max-width: 1200px;
+      margin: 0 auto 5rem;
+      padding: 3rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      text-align: center;
+      font-weight: 400;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    footer {
+      background:  var(--primary);
+      color: white;
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      font-size: 1rem;
+      user-select: none;
+    }
+
+    .footer-logo {
+      font-weight: 700;
+      font-size: 1.6rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-logo i {
+      font-size: 1.8rem;
+      animation: pulse 2s infinite;
+    }
+
+    .social-contact {
+      margin-bottom: 1rem;
+    }
+
+    .social-contact a {
+      color: white;
+      margin: 0 14px;
+      font-size: 1.6rem;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      vertical-align: middle;
+    }
+
+    .social-contact a:hover {
+      color: var(--accent);
+    }
+
+    .phone-number {
+      display: inline-block;
+      margin: 0 12px;
+      font-size: 1rem;
+      vertical-align: middle;
+      user-select: text;
+    }
+
+    .phone-number i {
+      margin-right: 8px;
+      color: var(--secondary);
+    }
+
+    /* Responsive */
+
+    @media (max-width: 992px) {
+      header {
+        padding: 1rem 2rem;
+      }
+
+      .header-container {
+        max-width: 90vw;
+      }
+
+      nav ul {
+        gap: 1rem;
+        font-size: 0.95rem;
+      }
+
+      .hero {
+        padding: 3rem 1.5rem 4rem;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero h2 {
+        font-size: 1.3rem;
+      }
+
+      .hero p {
+        max-width: 90%;
+        font-size: 1.05rem;
+      }
+
+      .slider-container {
+        max-width: 95vw;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        display: none;
+        background: var(--primary);
+        width: 100%;
+        padding: 1rem 0;
+        border-radius: 0 0 12px 12px;
+      }
+
+      nav ul.show {
+        display: flex;
+      }
+
+      nav ul li {
+        margin: 0.4rem 0;
+      }
+
+      nav ul li a {
+        padding: 0.7rem 1.2rem;
+        display: block;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      header h1 {
+        flex-grow: 0;
+        text-align: left;
+        font-size: 1.5rem;
+      }
+
+      .hero {
+        padding: 2.5rem 1rem 3.5rem;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .hero h2 {
+        font-size: 1.1rem;
+      }
+
+      .btn {
+        padding: 0.6rem 1.6rem;
+        font-size: 1rem;
+      }
+
+      .slider-dot {
+        height: 12px;
+        width: 12px;
+        margin: 0 6px;
+      }
+    }
+
+    /* Animations */
+    @keyframes slideDown {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes fadeIn {
+      to {opacity: 1;}
+    }
+
+    @keyframes fadeUp {
+      from {opacity: 0; transform: translateY(15px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1);}
+      50% { transform: scale(1.2);}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <img src="sawiro/logo.png" alt="Badbaado Hospitaal Logo" />
+      </div>
+      <h1>Badbaado Hospitaal</h1>
+      <nav>
+        <button class="menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+          <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+          <li><a href="index.html"><i class="fas fa-house"></i> Home</a></li>
+          <li><a href="About.html"><i class="fas fa-info-circle"></i> About</a></li>
+          <li><a href="services.html"><i class="fas fa-stethoscope"></i> Services</a></li>
+          <li><a href="doctor.html"><i class="fas fa-user-md"></i> Doctor</a></li>
+          <li><a href="Appointment.html"><i class="fas fa-calendar-check"></i> Appointment</a></li>
+          <li><a href="Contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" role="banner" aria-label="Welcome message">
+    <h1>Welcome to Badbaado Hospitaal</h1>
+    <h2>Your Health, Our Priority</h2>
+    <p>
+      We are a trusted health provider in Somalia, offering expert care across all medical specialties. 
+      Our commitment is to serve you with compassion, professionalism, and modern healthcare technology.
+    </p>
+    <a href="Appointment.html" class="btn" aria-label="Book Appointment">
+      <i class="fas fa-calendar-plus"></i> Book Appointment
+    </a>
+  </section>
+
+  <div class="slider-container" aria-label="Image slider">
+    <div class="slider">
+      <div class="slide"><img src="sawiro/swir.png" alt="Hospital Reception" /></div>
+      <div class="slide"><img src="sawiro/doctor friendly.png" alt="Friendly Doctor" /></div>
+      <div class="slide"><img src="sawiro/equip.png" alt="Advanced Equipment" /></div>
+    </div>
+  </div>
+
+  <div class="slider-nav" role="tablist" aria-label="Slider navigation">
+    <button class="slider-dot active" data-index="0" aria-selected="true" aria-label="Slide 1"></button>
+    <button class="slider-dot" data-index="1" aria-selected="false" aria-label="Slide 2"></button>
+    <button class="slider-dot" data-index="2" aria-selected="false" aria-label="Slide 3"></button>
+  </div>
+
+  <section class="hero alt-section" aria-label="Why choose section">
+    <h1>Why Choose Badbaado Hospitaal?</h1>
+    <p>
+      Choosing Badbaado Hospitaal means putting your health in capable hands. 
+      We combine world-class doctors, modern diagnostic tools, and patient-centered care. 
+      Our services are affordable, accessible, and tailored to your needs. 
+      With a reputation built on trust and excellence, we’re here to care for you and your family—every step of the way.
+    </p>
+  </section>
+
+  <footer>
+    <div class="footer-logo" aria-label="Hospital logo and name">
+      <i class="fas fa-hospital-symbol" aria-hidden="true"></i>
+      <span>Badbaado Hospitaal</span>
+    </div>
+    <div class="social-contact" aria-label="Social media and contact links">
+      <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://wa.me/615821483" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="tel:+252615821483" class="phone-number" aria-label="Call +252615821483"><i class="fas fa-phone"></i> 3399</a>
+      <a href="tel:+252614867424" class="phone-number" aria-label="Call +252614867424"><i class="fas fa-phone"></i> +252614867424</a>
+    </div>
+    <p>© 2025 Badbaado Hospitaal. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuToggle.addEventListener('click', () => {
+      const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+      menuToggle.setAttribute('aria-expanded', !isExpanded);
+      navLinks.classList.toggle('show');
+    });
+
+    const slider = document.querySelector('.slider');
+    const dots = [...document.querySelectorAll('.slider-dot')];
+    const slidesCount = dots.length;
+    let current = 0;
+    let autoSlide;
+
+    function goToSlide(i) {
+      current = i;
+      slider.style.transform = `translateX(-${i * 100}%)`;
+      dots.forEach((d, idx) => {
+        d.classList.toggle('active', idx === i);
+        d.setAttribute('aria-selected', idx === i);
+      });
+    }
+
+    dots.forEach(dot =>
+      dot.addEventListener('click', e => {
+        goToSlide(+e.target.dataset.index);
+        resetAuto();
+      })
+    );
+
+    function nextSlide() {
+      goToSlide((current + 1) % slidesCount);
+    }
+
+    function resetAuto() {
+      clearInterval(autoSlide);
+      autoSlide = setInterval(nextSlide, 4000);
+    }
+
+    resetAuto();
+  </script>
+</body>
+</html>

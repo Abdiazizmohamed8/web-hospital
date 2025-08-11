@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Appointment - Badbaado Hospitaal</title>
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    :root {
+      --primary: #005f73;
+      --secondary: #005f73;
+      --accent: #ffb703;
+      --text: #f5f5f5;
+      --light: #1e1e2f;
+      --dark: #12131a;
+      --input-bg: #2a2f3a;
+      --input-border: #444c56;
+      --input-focus: #ffb703;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: var(--light);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 1rem;
+      animation: slideDown 0.8s ease forwards;
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .logo img {
+      width: 45px;
+      filter: brightness(0) invert(1);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+      flex-grow: 1;
+      text-align: center;
+      user-select: none;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.2rem;
+      font-weight: 600;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.95rem;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: var(--accent);
+    }
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -3px;
+      left: 0;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    nav ul li a:hover::after,
+    nav ul li a.active::after {
+      width: 100%;
+    }
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    main {
+      max-width: 600px;
+      margin: 2rem auto 4rem;
+      padding: 2rem 2rem 3rem;
+      background: var(--dark);
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgb(0 0 0 / 0.4);
+      animation: fadeIn 1.2s ease forwards;
+      opacity: 0;
+    }
+    h2.section-title {
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 2rem;
+    }
+    .intro-text {
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+      color: #ccc;
+      line-height: 1.5;
+      text-align: center;
+      font-style: italic;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: var(--accent);
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    select,
+    textarea {
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+      border: 1.5px solid var(--input-border);
+      background-color: var(--input-bg);
+      color: var(--text);
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      resize: vertical;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="date"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--input-focus);
+      background-color: #2e3440;
+    }
+    textarea {
+      min-height: 100px;
+      font-family: inherit;
+    }
+    .required-star {
+      color: #ff4d4d;
+      margin-left: 3px;
+    }
+    button {
+      margin-top: 1rem;
+      background-color: var(--accent);
+      color: var(--dark);
+      font-weight: 700;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    button i {
+      font-size: 1.2rem;
+    }
+    button:hover {
+      background-color: #ffca28;
+    }
+    .confirmation-message {
+      background-color: #0a662a;
+      color: #d1f7c4;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 10px;
+      font-weight: 600;
+      display: none;
+      text-align: center;
+      box-shadow: 0 0 12px #0a662aaa;
+    }
+    .error-message {
+      background-color: #8b0000;
+      color: #f8d7da;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 10px;
+      font-weight: 600;
+      display: none;
+      text-align: center;
+      box-shadow: 0 0 12px #8b0000aa;
+    }
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 3rem 1rem;
+      font-size: 0.95rem;
+      margin-top: 2rem;
+    }
+    .footer-logo {
+      font-weight: 700;
+      font-size: 1.4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+    .footer-logo i {
+      font-size: 1.6rem;
+      animation: pulse 2s infinite;
+    }
+    .social-contact a {
+      color: white;
+      margin: 0 12px;
+      font-size: 1.3rem;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .social-contact a:hover {
+      color: var(--accent);
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        display: none;
+        background: var(--primary);
+        width: 100%;
+        padding: 0.5rem 0;
+      }
+      nav ul.show {
+        display: flex;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      header h1 {
+        flex-grow: 0;
+        text-align: left;
+      }
+      main {
+        margin: 1rem;
+      }
+    }
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-container">
+    <div class="logo">
+      <img src="sawiro/logo.png" alt="Badbaado Hospitaal Logo" />
+    </div>
+    <h1>Badbaado Hospitaal</h1>
+    <nav>
+      <button class="menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links">
+        <li><a href="index.html"><i class="fas fa-house"></i> Home</a></li>
+        <li><a href="About.html"><i class="fas fa-info-circle"></i> About</a></li>
+        <li><a href="services.html"><i class="fas fa-stethoscope"></i> Services</a></li>
+        <li><a href="doctor.html"><i class="fas fa-user-md"></i> Doctor</a></li>
+        <li><a href="Appointment.html" class="active"><i class="fas fa-calendar-check"></i> Appointment</a></li>
+        <li><a href="Contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h2 class="section-title">Book Your Appointment</h2>
+  <p class="intro-text">
+    At Badbaado Hospitaal, your health and comfort are our top priorities. Please fill out the form below to schedule a visit with one of our expert doctors. We kindly ask you to provide accurate information to ensure we offer you the best care possible. After submission, your appointment details will be saved locally for your convenience.
+  </p>
+
+  <form id="appointmentForm" action="#" method="post" aria-label="Appointment booking form" novalidate>
+    <label for="name">Full Name <span class="required-star" aria-hidden="true">*</span></label>
+    <input type="text" id="name" name="name" placeholder="Your full name" required aria-required="true" />
+
+    <label for="email">Email Address <span class="required-star" aria-hidden="true">*</span></label>
+    <input type="email" id="email" name="email" placeholder="example@mail.com" required aria-required="true" />
+
+    <label for="phone">Phone Number <span class="required-star" aria-hidden="true">*</span></label>
+    <input type="tel" id="phone" name="phone" placeholder="+252 6XXXXXXXX" required aria-required="true" pattern="^\+?[0-9\s\-]{7,15}$" />
+
+    <label for="doctor">Select Doctor <span class="required-star" aria-hidden="true">*</span></label>
+    <select id="doctor" name="doctor" required aria-required="true">
+      <option value="" disabled selected>Choose your doctor</option>
+      <option value="Dr. Sarah Johnson">Dr. Sarah Johnson - Cardiology</option>
+      <option value="Dr. Michael Brown">Dr. Michael Brown - Neurology</option>
+      <option value="Dr. Amina Ali">Dr. Amina Ali - Pediatrics</option>
+      <option value="Dr. Yusuf Mohamed">Dr. Yusuf Mohamed - Orthopedic</option>
+      <option value="Dr. Fatima Hassan">Dr. Fatima Hassan - Gynecology</option>
+      <option value="Dr. Ahmed Warsame">Dr. Ahmed Warsame - General Surgery</option>
+    </select>
+
+    <label for="date">Preferred Date <span class="required-star" aria-hidden="true">*</span></label>
+    <input type="date" id="date" name="date" required aria-required="true" />
+
+    <label for="time">Preferred Time <span class="required-star" aria-hidden="true">*</span></label>
+    <select id="time" name="time" required aria-required="true">
+      <option value="" disabled selected>Choose preferred time</option>
+      <option value="08:00 - 10:00">08:00 AM - 10:00 AM</option>
+      <option value="10:00 - 12:00">10:00 AM - 12:00 PM</option>
+      <option value="13:00 - 15:00">01:00 PM - 03:00 PM</option>
+      <option value="15:00 - 17:00">03:00 PM - 05:00 PM</option>
+      <option value="17:00 - 19:00">05:00 PM - 07:00 PM</option>
+    </select>
+
+    <label for="message">Additional Message</label>
+    <textarea id="message" name="message" placeholder="Write any concerns or questions here..." ></textarea>
+
+    <button type="submit" aria-label="Submit appointment form">
+      <i class="fas fa-paper-plane"></i> Submit Appointment
+    </button>
+
+    <div class="confirmation-message" role="alert" aria-live="polite"></div>
+    <div class="error-message" role="alert" aria-live="assertive"></div>
+  </form>
+</main>
+
+<footer>
+  <div class="footer-logo" aria-label="Hospital logo and name">
+    <i class="fas fa-hospital-symbol"></i>
+    <span>Badbaado Hospitaal</span>
+  </div>
+  <div class="social-contact" role="contentinfo">
+    <a href="https://facebook.com" target="_blank" aria-label="Facebook" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://wa.me/615821483" target="_blank" aria-label="WhatsApp" rel="noopener"><i class="fab fa-whatsapp"></i></a>
+    <a href="tel:+252615821483" aria-label="Phone 1" class="phone-number">
+      <i class="fas fa-phone"></i> 3399
+    </a>
+    <a href="tel:+252614867424" aria-label="Phone 2" class="phone-number">
+      <i class="fas fa-phone"></i> +252614867424
+    </a>
+  </div>
+  <p>© 2025 Badbaado Hospitaal. All rights reserved.</p>
+</footer>
+
+<script>
+  // Set min date to today for date input
+  const dateInput = document.getElementById('date');
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.setAttribute('min', today);
+
+  // Menu toggle
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('.nav-links');
+
+  menuToggle.onclick = () => {
+    const isShown = navLinks.classList.toggle('show');
+    menuToggle.setAttribute('aria-expanded', isShown);
+  };
+
+  // Highlight active link
+  const links = document.querySelectorAll('nav a');
+  links.forEach(link => {
+    if (link.href === location.href) {
+      link.classList.add('active');
+    }
+  });
+
+  // Form submission handling with validation and localStorage
+  const form = document.getElementById('appointmentForm');
+  const confirmationMessage = document.querySelector('.confirmation-message');
+  const errorMessage = document.querySelector('.error-message');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    confirmationMessage.style.display = 'none';
+    errorMessage.style.display = 'none';
+
+    // Clear previous field-specific error styles
+    Array.from(form.elements).forEach(el => {
+      el.style.borderColor = 'var(--input-border)';
+    });
+
+    // Check required fields
+    if (!form.checkValidity()) {
+      errorMessage.textContent = 'Fadlan buuxi dhammaan meelaha looga baahan yahay si sax ah.';
+      errorMessage.style.display = 'block';
+
+      // Highlight invalid fields
+      Array.from(form.elements).forEach(el => {
+        if (!el.validity.valid) {
+          el.style.borderColor = '#ff4d4d';
+        }
+      });
+
+      return;
+    }
+
+    // Extra validation for email format (browser does it by default but we double-check)
+    const email = form.email.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      errorMessage.textContent = 'Fadlan geli email sax ah.';
+      errorMessage.style.display = 'block';
+      form.email.style.borderColor = '#ff4d4d';
+      form.email.focus();
+      return;
+    }
+
+    // Extra validation for phone number pattern
+    const phone = form.phone.value.trim();
+    const phoneRegex = /^\+?[0-9\s\-]{7,15}$/;
+    if (!phoneRegex.test(phone)) {
+      errorMessage.textContent = 'Fadlan geli lambarka telefoonka saxda ah.';
+      errorMessage.style.display = 'block';
+      form.phone.style.borderColor = '#ff4d4d';
+      form.phone.focus();
+      return;
+    }
+
+    // Collect form data
+    const appointmentData = {
+      name: form.name.value.trim(),
+      email: email,
+      phone: phone,
+      doctor: form.doctor.value,
+      date: form.date.value,
+      time: form.time.value,
+      message: form.message.value.trim()
+    };
+
+    // Store appointment data in localStorage
+    try {
+      const savedAppointments = JSON.parse(localStorage.getItem('badbaadoAppointments')) || [];
+      savedAppointments.push(appointmentData);
+      localStorage.setItem('badbaadoAppointments', JSON.stringify(savedAppointments));
+    } catch (error) {
+      errorMessage.textContent = 'Khalad ayaa dhacay marka la keydinayey xogta ballanta. Fadlan isku day mar kale.';
+      errorMessage.style.display = 'block';
+      return;
+    }
+
+    // Show confirmation
+    confirmationMessage.textContent = `Mahadsanid, ${appointmentData.name}! Ballantaada la leh ${appointmentData.doctor} taariikhda ${appointmentData.date} iyo waqtiga ${appointmentData.time} si guul leh ayaa loo diiwaangeliyey. Waxaan kula soo xiriiri doonaa email ama telefoon dhawaan.`;
+    confirmationMessage.style.display = 'block';
+
+    // Reset form
+    form.reset();
+    // Reset min date to today again
+    dateInput.setAttribute('min', today);
+  });
+</script>
+
+</body>
+</html>
